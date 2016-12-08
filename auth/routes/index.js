@@ -11,7 +11,14 @@ router.post('/auth', function(req, res){
     var token = Math.random().toString(36).substr(2);
     tokens.push(token);
 
-    res.send({'token': token});
+    switch (process.env.payload) {
+      case "raw":
+        res.send({'token': token});
+        break;
+      case "form":
+        res.send(token);
+        break;
+    }
   } else {
     res.sendStatus(403);
   }

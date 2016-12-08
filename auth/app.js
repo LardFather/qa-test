@@ -17,11 +17,18 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(xmlparser({trim: false, explicitArray: false}));
+
+switch (process.env.payload) {
+  case "raw":
+    app.use(bodyParser.json());
+    app.use(xmlparser({trim: false, explicitArray: false}));
+    break;
+  case "form":
+    app.use(bodyParser.urlencoded({ extended: true }));
+    break;
+}
 
 app.use('/', routes);
 

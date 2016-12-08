@@ -1,11 +1,16 @@
 var request      = require('supertest-as-promised'),
     expect       = require('chai').expect,
     should       = require('chai').should(),
-    assert       = require('assert');
-
-var server = require('../app')
+    assert       = require('assert'),
+    server;
 
 describe('restful-booker-platform - /auth', function () {
+
+  beforeEach(function(){
+    process.env['payload'] = 'raw';
+    delete require.cache[require.resolve('../app')];
+    server = require('../app');
+  });
 
   it('responds to /ping', function testPing(done){
     request(server)
@@ -22,6 +27,12 @@ describe('restful-booker-platform - /auth', function () {
 });
 
 describe('restful-booker-platform - POST /auth', function () {
+
+  beforeEach(function(){
+    process.env['payload'] = 'raw';
+    delete require.cache[require.resolve('../app')];
+    server = require('../app');
+  });
 
   it('responds with a 200 and set-cookie header when logging in with correct credentials', function(done){
     request(server)
@@ -53,6 +64,12 @@ describe('restful-booker-platform - POST /auth', function () {
 
 describe('restful-booker-platform - POST /validate', function () {
 
+  beforeEach(function(){
+    process.env['payload'] = 'raw';
+    delete require.cache[require.resolve('../app')];
+    server = require('../app');
+  });
+
   it('responds with a 200 when checking to see if a token is valid', function(done){
     request(server)
       .post('/auth')
@@ -78,6 +95,12 @@ describe('restful-booker-platform - POST /validate', function () {
 });
 
 describe('restful-booker-platform - POST /logout', function () {
+
+  beforeEach(function(){
+    process.env['payload'] = 'raw';
+    delete require.cache[require.resolve('../app')];
+    server = require('../app');
+  });
 
   it('respond with a 200 and the token is removed when calling logout', function(done){
     var tokenToUse;
